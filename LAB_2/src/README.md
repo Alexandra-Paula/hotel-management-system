@@ -60,9 +60,9 @@ public interface ReservationPackageFactory {
 The user can choose between simple reservation or complete package reservation.
 
 Created objects:
-Standard Package - StandardRoom + AirportTransfer
-Deluxe Package - DeluxeRoom + SpaAccess + AirportTransfer
-Suite Package - SuiteRoom + SpaAccess + RoomService + AirportTransfer
+- Standard Package - StandardRoom + AirportTransfer
+- Deluxe Package - DeluxeRoom + SpaAccess + AirportTransfer
+- Suite Package - SuiteRoom + SpaAccess + RoomService + AirportTransfer
 
 ### Conclusions
 The project demonstrates the practical use of Factory Method and Abstract Factory patterns for building flexible and maintainable software systems.

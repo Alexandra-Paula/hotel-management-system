@@ -4,6 +4,9 @@ import domain.HotelManager;
 import abstractFactory.*;
 import factory.*;
 import models.*;
+import builder.ReservationBuilder;
+import domain.Reservation;
+import enums.PaymentType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -196,7 +199,7 @@ public class UserInterface {
     }
 
     //display for package reservation (abstract factory)
-    public void displaySummary(Room room, int nights, List<ExtraService> services, boolean loyalty) {
+    public void displaySummary(Room room, int nights, List<ExtraService> services, boolean loyalty, PaymentType paymentType) {
         System.out.println("============================================================");
         System.out.println("                     RESERVATION SUMMARY ");
         System.out.println("============================================================");
@@ -249,9 +252,6 @@ public class UserInterface {
 
         System.out.println("PAYMENT");
         System.out.println("Amount to pay: €" + String.format("%.2f", total));
-        System.out.println("Select payment method: 1. Card  2. Cash  3. Online Banking");
-        System.out.print("Your choice (1-3): ");
-        int method = readInt(1,3);
         System.out.println("============================================================");
         System.out.println("PROCESSING PAYMENT...");
         System.out.println("Payment authorized... ✔ Payment successful!");
@@ -259,7 +259,8 @@ public class UserInterface {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         System.out.println("============================================================");
         System.out.println("PAYMENT RECEIPT");
-        System.out.println("Payment Method: " + (method==1?"Card":method==2?"Cash":"Online Banking"));
+        System.out.println("Payment Method: " + (paymentType == PaymentType.CARD ? "Card" :
+                paymentType == PaymentType.CASH ? "Cash" : "Online Banking"));
         System.out.println("Date: " + dtf.format(LocalDateTime.now()));
         System.out.println("--------------------------------------------");
         System.out.println("Amount Paid: €" + String.format("%.2f", total));
@@ -268,6 +269,41 @@ public class UserInterface {
         System.out.println("Thank you for choosing Aurora Hotel!");
         System.out.println("============================================================");
 
+    }
+
+    public void handleFullReservation(boolean loyalty) {
+        System.out.println("=== Creating a full reservation ===");
+
+        ReservationPackageFactory factory = selectPackage();
+        Room room = factory.createRoom();
+        ExtraService[] extraOptions = factory.createExtraServices();
+
+        int nights = askNumberOfNights();
+
+        List<ExtraService> selectedServices = askExtraServices(extraOptions, room);
+
+        System.out.print("Enter guest name: ");
+        String guestName = scanner.nextLine().trim();
+
+        System.out.println("Select payment method: 1. Card  2. Cash  3. Online Banking");
+        System.out.print("Your choice (1-3): ");
+        int method = readInt(1,3);
+        PaymentType paymentType = method == 1 ? PaymentType.CARD :
+                method == 2 ? PaymentType.CASH : PaymentType.ONLINE_BANKING;
+
+        // BUILD RESERVATION USING BUILDER
+        Reservation reservation = new ReservationBuilder()
+                .withGuestName(guestName)
+                .withRoom(room.clone())
+                .withNights(nights)
+                .withServices(selectedServices)
+                .withLoyalty(loyalty)
+                .withPaymentType(paymentType)
+                .build();
+
+        manager.addReservation(reservation);
+
+        displaySummary(room, nights, selectedServices, loyalty, paymentType);
     }
 
     private int readInt(int min, int max) {
@@ -281,4 +317,5 @@ public class UserInterface {
             }
         }
     }
+
 }

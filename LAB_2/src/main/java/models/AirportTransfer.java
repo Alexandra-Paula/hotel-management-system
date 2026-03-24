@@ -5,4 +5,9 @@ public class AirportTransfer extends ExtraService {
         description = "Airport Transfer";
         price = 25;
     }
+
+    @Override
+    public ExtraService clone() {
+        return new AirportTransfer();
+    }
 }

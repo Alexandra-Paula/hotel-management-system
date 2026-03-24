@@ -5,14 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7a1be72-f83d-4eb0-9944-3b470f32eacb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LAB_2/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/DeluxePackageFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/DeluxePackageFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/StandardPackageFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/StandardPackageFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/SuitePackageFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/SuitePackageFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/client/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/client/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/client/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/client/UserInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/domain/HotelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/domain/HotelManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/enums/PaymentType.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/enums/PaymentType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/AirportTransfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/models/AirportTransfer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/ExtraService.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/models/ExtraService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/models/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/models/RoomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/SpaAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/models/SpaAccess.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +28,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
       </list>
@@ -39,29 +46,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "23",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/alexandramanea/OneDriveBackup/UTM/anul 3/sem2/TMPPP/HotelManagementSystem",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/Users/alexandramanea/OneDriveBackup/UTM/anul 3/sem2/TMPPP/HotelManagementSystem/src/main/java/management/employees/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.DemoPrototype.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;23&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/alexandramanea/OneDriveBackup/UTM/anul 3/sem2/TMPPP/HotelManagementSystem&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/alexandramanea/OneDriveBackup/UTM/anul 3/sem2/TMPPP/HotelManagementSystem/src/main/java/management/employees/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/LAB_3" />
+      <recent name="$PROJECT_DIR$/LAB_2/src" />
       <recent name="$PROJECT_DIR$/LAB_1" />
     </key>
   </component>
@@ -89,6 +99,20 @@
       <workItem from="1770726225110" duration="1225000" />
       <workItem from="1770736502484" duration="1337000" />
       <workItem from="1770796891498" duration="8167000" />
+      <workItem from="1770975161230" duration="5461000" />
+      <workItem from="1771938783863" duration="3000" />
+      <workItem from="1772102885752" duration="7432000" />
+      <workItem from="1772170120672" duration="3983000" />
+      <workItem from="1772185358790" duration="3272000" />
+      <workItem from="1772189604176" duration="452000" />
+      <workItem from="1773042776905" duration="2440000" />
+      <workItem from="1773120865094" duration="7521000" />
+      <workItem from="1773138519453" duration="5987000" />
+      <workItem from="1773170969816" duration="2823000" />
+      <workItem from="1773203181463" duration="1986000" />
+      <workItem from="1773205509949" duration="115000" />
+      <workItem from="1773220878471" duration="6175000" />
+      <workItem from="1774351694346" duration="351000" />
     </task>
     <servers />
   </component>

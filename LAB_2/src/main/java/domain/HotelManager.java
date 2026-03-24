@@ -2,16 +2,21 @@ package domain;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class HotelManager {
     private static HotelManager instance;
     private Set<String> loyaltyMembers;
+    private List<Reservation> reservations;
 
     private HotelManager() {
         loyaltyMembers = new HashSet<>();
+        reservations = new ArrayList<>();
     }
 
-    public static HotelManager getInstance() {
+    public static synchronized HotelManager getInstance() {
         if (instance == null) {
             instance = new HotelManager();
         }
@@ -36,5 +41,14 @@ public class HotelManager {
 
     public void displayLoyaltyInfo() {
         System.out.println("★ Loyalty Program: 15% discount on rooms, priority check-in !!!★");
+    }
+
+    //reservation
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 }

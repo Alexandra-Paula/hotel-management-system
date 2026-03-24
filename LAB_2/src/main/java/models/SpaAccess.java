@@ -5,4 +5,8 @@ public class SpaAccess extends ExtraService {
         description = "Spa Access";
         price = 40;
     }
+    @Override
+    public ExtraService clone(){
+        return new SpaAccess();
+    }
 }

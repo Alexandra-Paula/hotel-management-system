@@ -3,5 +3,5 @@ package enums;
 public enum PaymentType {
     CASH,
     CARD,
-    ONLINE
+    ONLINE_BANKING
 }
