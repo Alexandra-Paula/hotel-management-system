@@ -5,20 +5,66 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7a1be72-f83d-4eb0-9944-3b470f32eacb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/DeluxePackageFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/DeluxePackageFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/StandardPackageFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/StandardPackageFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/SuitePackageFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/SuitePackageFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/client/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/client/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/client/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/client/UserInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/domain/HotelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/domain/HotelManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/enums/PaymentType.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/enums/PaymentType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/AirportTransfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/models/AirportTransfer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/ExtraService.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/models/ExtraService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/models/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/models/RoomService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/SpaAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/LAB_2/src/main/java/models/SpaAccess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/client/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/client/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/client/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/client/UserInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/domain/HotelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/domain/HotelManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/billing/InvoiceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/billing/InvoiceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/billing/TaxCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/billing/TaxCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/loyalty/LoyaltyDiscountPolicy.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/loyalty/LoyaltyDiscountPolicy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/loyalty/LoyaltyProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/loyalty/LoyaltyProgram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/model/ExtraService.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/model/ExtraService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/model/Hotel.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/model/Hotel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/model/Invoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/model/Invoice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/model/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/model/Notification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/model/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/model/Reservation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/model/ReservationStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/model/ReservationStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/payment/CardPayment.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/payment/CardPayment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/payment/CashPayment.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/payment/CashPayment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/payment/OnlineBankingPayment.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/payment/OnlineBankingPayment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/payment/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/payment/Payment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/pricing/PriceCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/pricing/PriceCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/room/DeluxeRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/room/DeluxeRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/room/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/room/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/room/StandardRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/room/StandardRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/room/SuiteRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/room/SuiteRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/service/AirportTransfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/service/AirportTransfer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/service/ExtraService.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/service/ExtraService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/service/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/service/NotificationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/service/PricingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/service/PricingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/service/SpaAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/service/SpaAccess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/service/ValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/service/ValidationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/DeluxePackageFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/ReservationPackageFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/StandardPackageFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/abstractFactory/SuitePackageFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/builder/Builder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/builder/ReservationBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/client/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/client/UserInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/domain/HotelManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/domain/Reservation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/enums/PaymentType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/enums/RoomType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/factory/DeluxeRoomFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/factory/RoomFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/factory/StandardRoomFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/factory/SuiteRoomFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/AirportTransfer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/DeluxeRoom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/ExtraService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/Room.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/RoomService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/SpaAccess.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/StandardRoom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/models/SuiteRoom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LAB_2/src/main/java/prototype/Prototype.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +158,7 @@
       <workItem from="1773203181463" duration="1986000" />
       <workItem from="1773205509949" duration="115000" />
       <workItem from="1773220878471" duration="6175000" />
-      <workItem from="1774351694346" duration="351000" />
+      <workItem from="1774351694346" duration="1546000" />
     </task>
     <servers />
   </component>
@@ -123,7 +169,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/LAB_1/src/main/java/management/hotel/Main.java</url>
+          <url>file://$PROJECT_DIR$/1-solid-principles/src/main/java/management/hotel/Main.java</url>
           <line>13</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
