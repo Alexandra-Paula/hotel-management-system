@@ -1,5 +1,7 @@
 package client;
 
+import composite.ServicePackage;
+import composite.SingleService;
 import domain.HotelManager;
 import abstractFactory.*;
 import factory.*;
@@ -13,6 +15,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import payment.*;
+import composite.*;
 
 public class UserInterface {
 
@@ -120,11 +125,14 @@ public class UserInterface {
         List<ExtraService> selected = new ArrayList<>();
 
         if (room instanceof SuiteRoom) {
-            System.out.println("All services included for Suite:");
+            // Composite pattern - grupam serviciile intr-un pachet
+            ServicePackage suitePackage = new ServicePackage("Suite Premium Package");
             for (ExtraService s : options) {
+                suitePackage.add(new SingleService(s.getDescription(), s.getPrice()));
                 selected.add(s);
-                System.out.println("✓ " + s.getDescription());
             }
+            System.out.println("All services included for Suite:");
+            suitePackage.display();
             return selected;
         }
 
@@ -178,17 +186,29 @@ public class UserInterface {
 
         System.out.println("PAYMENT");
         System.out.println("Amount to pay: €" + String.format("%.2f", total));
-        System.out.println("Select payment method: 1. Card  2. Cash  3. Online Banking");
+        System.out.println("Select payment method: 1. Card  2. Cash  3. PayPal");
         System.out.print("Your choice (1-3): ");
-        int method = readInt(1,3);
+        int method = readInt(1, 3);
         System.out.println("============================================================");
         System.out.println("PROCESSING PAYMENT...");
-        System.out.println("Payment authorized... ✔ Payment successful!");
+
+        PaymentProcessor processor = null;
+        if (method == 1) {
+            processor = new StripeAdapter(new StripePaymentService());
+        } else if (method == 3) {
+            processor = new PayPalAdapter(new PayPalPaymentService());
+        }
+
+        if (processor != null) {
+            processor.processPayment(total);
+        } else {
+            System.out.println("Cash: Payment received. ✔");
+        }
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         System.out.println("============================================================");
         System.out.println("PAYMENT RECEIPT");
-        System.out.println("Payment Method: " + (method==1?"Card":method==2?"Cash":"Online Banking"));
+        System.out.println("Payment Method: " + (method==1?"Card (Stripe)":method==2?"Cash":"PayPal"));
         System.out.println("Date: " + dtf.format(LocalDateTime.now()));
         System.out.println("--------------------------------------------");
         System.out.println("Amount Paid: €" + String.format("%.2f", total));
@@ -252,15 +272,29 @@ public class UserInterface {
 
         System.out.println("PAYMENT");
         System.out.println("Amount to pay: €" + String.format("%.2f", total));
+        System.out.println("Select payment method: 1. Card (stripe)  2. Cash  3. PayPal");
+        System.out.print("Your choice (1-3): ");
+        int method = readInt(1, 3);
         System.out.println("============================================================");
         System.out.println("PROCESSING PAYMENT...");
-        System.out.println("Payment authorized... ✔ Payment successful!");
+
+        PaymentProcessor processor = null;
+        if (method == 1) {
+            processor = new StripeAdapter(new StripePaymentService());
+        } else if (method == 3) {
+            processor = new PayPalAdapter(new PayPalPaymentService());
+        }
+
+        if (processor != null) {
+            processor.processPayment(total);
+        } else {
+            System.out.println("Cash: Payment received.");
+        }
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         System.out.println("============================================================");
         System.out.println("PAYMENT RECEIPT");
-        System.out.println("Payment Method: " + (paymentType == PaymentType.CARD ? "Card" :
-                paymentType == PaymentType.CASH ? "Cash" : "Online Banking"));
+        System.out.println("Payment Method: " + (method == 1 ? "Card" : method == 2 ? "Cash" : "PayPal"));
         System.out.println("Date: " + dtf.format(LocalDateTime.now()));
         System.out.println("--------------------------------------------");
         System.out.println("Amount Paid: €" + String.format("%.2f", total));
@@ -285,11 +319,7 @@ public class UserInterface {
         System.out.print("Enter guest name: ");
         String guestName = scanner.nextLine().trim();
 
-        System.out.println("Select payment method: 1. Card  2. Cash  3. Online Banking");
-        System.out.print("Your choice (1-3): ");
-        int method = readInt(1,3);
-        PaymentType paymentType = method == 1 ? PaymentType.CARD :
-                method == 2 ? PaymentType.CASH : PaymentType.ONLINE_BANKING;
+        PaymentType paymentType = PaymentType.CARD; // doar pentru builder, plata reala se face in displaySummary
 
         // BUILD RESERVATION USING BUILDER
         Reservation reservation = new ReservationBuilder()
