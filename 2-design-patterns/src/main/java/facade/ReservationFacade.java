@@ -13,10 +13,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import strategy.*;
+import command.*;
+
+import decorator.*;
+import models.SpaAccess;
+import models.AirportTransfer;
+import models.RoomService;
+
 public class ReservationFacade {
 
     private final HotelManager manager;
     private final Scanner scanner;
+
+    private final ReservationInvoker invoker = new ReservationInvoker();
 
     public ReservationFacade(Scanner scanner) {
         this.scanner = scanner;
@@ -32,45 +42,65 @@ public class ReservationFacade {
         processPayment(total);
     }
 
-    public void makeFullReservation(boolean loyalty) {
+    public void makeFullReservation(boolean loyalty, String phoneNumber) {
         System.out.println("============================================================");
         System.out.println("           Processing Full Reservation...");
         System.out.println("============================================================");
 
-        // 1. Abstract Factory - selecteaza pachetul
+        // 1. Abstract Factory
         ReservationPackageFactory factory = selectPackage();
         Room room = factory.createRoom();
         ExtraService[] extraOptions = factory.createExtraServices();
 
-        // 2. Composite - grupeaza serviciile
-        ServicePackage servicePackage = new ServicePackage("Selected Services");
+        // 2. Decorator - construieste camera cu servicii
+        RoomComponent decoratedRoom = new BasicRoom(
+                room.getDescription(),
+                room.getPricePerNight()
+        );
+
         List<ExtraService> selectedServices = new ArrayList<>();
 
         if (room instanceof SuiteRoom) {
+            decoratedRoom = new SpaDecorator(decoratedRoom);
+            decoratedRoom = new RoomServiceDecorator(decoratedRoom);
+            decoratedRoom = new AirportTransferDecorator(decoratedRoom);
+
+            // Adaugam serviciile in lista pentru Builder
             for (ExtraService s : extraOptions) {
-                servicePackage.add(new SingleService(s.getDescription(), s.getPrice()));
                 selectedServices.add(s);
             }
             System.out.println("All services included:");
-            servicePackage.display();
         } else {
             for (ExtraService s : extraOptions) {
-                System.out.print("Add " + s.getDescription() + "? (+€" + (int) s.getPrice() + ") (yes/no): ");
+                System.out.print("Add " + s.getDescription() +
+                        "? (+€" + (int) s.getPrice() + ") (yes/no): ");
                 String ans = scanner.nextLine().trim().toLowerCase();
                 if (ans.equals("yes") || ans.equals("y")) {
-                    servicePackage.add(new SingleService(s.getDescription(), s.getPrice()));
                     selectedServices.add(s);
+
+                    if (s instanceof SpaAccess) {
+                        decoratedRoom = new SpaDecorator(decoratedRoom);
+                    } else if (s instanceof AirportTransfer) {
+                        decoratedRoom = new AirportTransferDecorator(decoratedRoom);
+                    } else if (s instanceof RoomService) {
+                        decoratedRoom = new RoomServiceDecorator(decoratedRoom);
+                    }
                 }
             }
-            servicePackage.display();
         }
 
-        // 3. Builder - construieste rezervarea
+        System.out.println("------------------------------------------------------------");
+        System.out.println("Room with services: " + decoratedRoom.getDescription());
+        System.out.println("Total room price/night: €" + decoratedRoom.getPrice());
+        System.out.println("------------------------------------------------------------");
+
+        // 3. Builder
         System.out.print("Enter guest name: ");
         String guestName = scanner.nextLine().trim();
 
         Reservation reservation = new ReservationBuilder()
                 .withGuestName(guestName)
+                .withPhoneNumber(phoneNumber)
                 .withRoom(room.clone())
                 .withNights(askNumberOfNights())
                 .withServices(selectedServices)
@@ -78,20 +108,30 @@ public class ReservationFacade {
                 .withPaymentType(PaymentType.CARD)
                 .build();
 
-        manager.addReservation(reservation);
+        System.out.println("Initial Status: " + reservation.getStatusName());
 
-        // 4. Adapter - proceseaza plata
+        // 4. Calcul Total (Acum folosim prețul din Decorator)
         double total = calculateTotal(
-                room.getPricePerNight() * reservation.getNights(),
-                servicePackage.getPrice(),
+                decoratedRoom.getPrice() * reservation.getNights(),
+                0,
                 loyalty
         );
         processPayment(total);
 
+        command.Command placeOrder = new command.PlaceReservationCommand(manager, reservation);
+        invoker.executeCommand(placeOrder);
+
+        System.out.println("Final Status: " + reservation.getStatusName()); // Acum este CONFIRMED
         System.out.println("Reservation completed successfully!");
+
+
+    System.out.print("Do you want to UNDO this reservation? (yes/no): ");
+    if(scanner.nextLine().trim().equalsIgnoreCase("yes")) {
+        invoker.undoLastCommand();
     }
 
-    // metode private helper ---
+    }
+
     private double calculateTotal(double roomPrice, double servicesPrice, boolean loyalty) {
         double subtotal = roomPrice + servicesPrice;
         if (loyalty) subtotal *= 0.85;
@@ -101,22 +141,28 @@ public class ReservationFacade {
 
     private void processPayment(double total) {
         System.out.println("Amount to pay: €" + String.format("%.2f", total));
-        System.out.println("Select payment method: 1. Card (Stripe)  2. Cash  3. PayPal");
+        System.out.println("Select payment method: 1. Card   2. Cash  3. PayPal");
         System.out.print("Your choice (1-3): ");
         int method = readInt(1, 3);
 
-        PaymentProcessor processor = null;
-        if (method == 1) {
-            processor = new StripeAdapter(new StripePaymentService());
-        } else if (method == 3) {
-            processor = new PayPalAdapter(new PayPalPaymentService());
+        // strategy
+        PaymentStrategy strategy;
+        switch (method) {
+            case 1: strategy = new StripePaymentStrategy(); break;
+            case 3: strategy = new PayPalPaymentStrategy(); break;
+            default: strategy = new CashPaymentStrategy(); break;
         }
 
-        if (processor != null) {
-            processor.processPayment(total);
-        } else {
-            System.out.println("Cash: Payment received.");
-        }
+        System.out.println("============================================================");
+        System.out.println("PROCESSING PAYMENT...");
+        strategy.pay(total);  // apel uniform, indiferent de metoda
+
+        System.out.println("============================================================");
+        System.out.println("PAYMENT RECEIPT");
+        System.out.println("Payment Method: " + strategy.getMethodName());
+        System.out.println("Amount Paid: €" + String.format("%.2f", total));
+        System.out.println("Status: PAID ✔");
+        System.out.println("============================================================");
     }
 
     private ReservationPackageFactory selectPackage() {
@@ -150,4 +196,6 @@ public class ReservationFacade {
             }
         }
     }
+
+
 }
