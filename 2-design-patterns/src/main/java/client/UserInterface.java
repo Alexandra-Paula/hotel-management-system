@@ -23,13 +23,13 @@ public class UserInterface {
 
     private final Scanner scanner;
     private final HotelManager manager;
+    private String lastPhoneNumber = "";
 
     public UserInterface(Scanner scanner) {
         this.scanner = scanner;
         this.manager = HotelManager.getInstance();
     }
 
-    // === WELCOME AND LOYALTY PROGRAM ===
     public void displayWelcome() {
         System.out.println("============================================================");
         System.out.println("        Welcome to Aurora Smart Hotel Management System ");
@@ -47,6 +47,7 @@ public class UserInterface {
         if (answer.equals("yes")) {
             System.out.print("Enter your phone number: ");
             String phone = scanner.nextLine().trim();
+            this.lastPhoneNumber = phone;
             if (manager.isLoyaltyMember(phone)) {
                 System.out.println("✔ Membership verified! + Loyalty benefits activated!\n");
                 return true;
@@ -60,6 +61,7 @@ public class UserInterface {
             if (join.equals("yes")) {
                 System.out.print("Enter your phone number to register: ");
                 String phone = scanner.nextLine().trim();
+                this.lastPhoneNumber = phone;
                 manager.addLoyaltyMember(phone);
                 System.out.println("✔ Registration successful! + Loyalty benefits activated!\n");
                 return true;
@@ -125,7 +127,7 @@ public class UserInterface {
         List<ExtraService> selected = new ArrayList<>();
 
         if (room instanceof SuiteRoom) {
-            // Composite pattern - grupam serviciile intr-un pachet
+            // Composite pattern
             ServicePackage suitePackage = new ServicePackage("Suite Premium Package");
             for (ExtraService s : options) {
                 suitePackage.add(new SingleService(s.getDescription(), s.getPrice()));
@@ -208,7 +210,7 @@ public class UserInterface {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         System.out.println("============================================================");
         System.out.println("PAYMENT RECEIPT");
-        System.out.println("Payment Method: " + (method==1?"Card (Stripe)":method==2?"Cash":"PayPal"));
+        System.out.println("Payment Method: " + (method==1?"Card":method==2?"Cash":"PayPal"));
         System.out.println("Date: " + dtf.format(LocalDateTime.now()));
         System.out.println("--------------------------------------------");
         System.out.println("Amount Paid: €" + String.format("%.2f", total));
@@ -272,7 +274,7 @@ public class UserInterface {
 
         System.out.println("PAYMENT");
         System.out.println("Amount to pay: €" + String.format("%.2f", total));
-        System.out.println("Select payment method: 1. Card (stripe)  2. Cash  3. PayPal");
+        System.out.println("Select payment method: 1. Card   2. Cash  3. PayPal");
         System.out.print("Your choice (1-3): ");
         int method = readInt(1, 3);
         System.out.println("============================================================");
@@ -348,4 +350,7 @@ public class UserInterface {
         }
     }
 
+    public String getLastPhoneNumber() {
+        return lastPhoneNumber;
+    }
 }
