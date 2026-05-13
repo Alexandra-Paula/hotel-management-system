@@ -47,12 +47,10 @@ public class ReservationFacade {
         System.out.println("           Processing Full Reservation...");
         System.out.println("============================================================");
 
-        // 1. Abstract Factory
         ReservationPackageFactory factory = selectPackage();
         Room room = factory.createRoom();
         ExtraService[] extraOptions = factory.createExtraServices();
 
-        // 2. Decorator - construieste camera cu servicii
         RoomComponent decoratedRoom = new BasicRoom(
                 room.getDescription(),
                 room.getPricePerNight()
@@ -65,7 +63,6 @@ public class ReservationFacade {
             decoratedRoom = new RoomServiceDecorator(decoratedRoom);
             decoratedRoom = new AirportTransferDecorator(decoratedRoom);
 
-            // Adaugam serviciile in lista pentru Builder
             for (ExtraService s : extraOptions) {
                 selectedServices.add(s);
             }
@@ -94,7 +91,6 @@ public class ReservationFacade {
         System.out.println("Total room price/night: €" + decoratedRoom.getPrice());
         System.out.println("------------------------------------------------------------");
 
-        // 3. Builder
         System.out.print("Enter guest name: ");
         String guestName = scanner.nextLine().trim();
 
@@ -110,7 +106,6 @@ public class ReservationFacade {
 
         System.out.println("Initial Status: " + reservation.getStatusName());
 
-        // 4. Calcul Total (Acum folosim prețul din Decorator)
         double total = calculateTotal(
                 decoratedRoom.getPrice() * reservation.getNights(),
                 0,
@@ -121,7 +116,7 @@ public class ReservationFacade {
         command.Command placeOrder = new command.PlaceReservationCommand(manager, reservation);
         invoker.executeCommand(placeOrder);
 
-        System.out.println("Final Status: " + reservation.getStatusName()); // Acum este CONFIRMED
+        System.out.println("Final Status: " + reservation.getStatusName());
         System.out.println("Reservation completed successfully!");
 
 
@@ -145,7 +140,6 @@ public class ReservationFacade {
         System.out.print("Your choice (1-3): ");
         int method = readInt(1, 3);
 
-        // strategy
         PaymentStrategy strategy;
         switch (method) {
             case 1: strategy = new StripePaymentStrategy(); break;
@@ -155,7 +149,7 @@ public class ReservationFacade {
 
         System.out.println("============================================================");
         System.out.println("PROCESSING PAYMENT...");
-        strategy.pay(total);  // apel uniform, indiferent de metoda
+        strategy.pay(total); 
 
         System.out.println("============================================================");
         System.out.println("PAYMENT RECEIPT");
@@ -196,6 +190,4 @@ public class ReservationFacade {
             }
         }
     }
-
-
 }

@@ -81,7 +81,7 @@ public class UserInterface {
         return readInt(1, 2);
     }
 
-    //factory Method - select room for simple reservation
+    //factory Method, select room for simple reservation
     public RoomFactory selectRoomFactory() {
         System.out.println("Select room type:");
         System.out.println("1. Standard Room - €80 / night");
@@ -98,7 +98,7 @@ public class UserInterface {
         }
     }
 
-    //abstract Factory - select package for full reservation
+    //abstract Factory, select package for full reservation
     public ReservationPackageFactory selectPackage() {
         System.out.println("============================================================");
         System.out.println("                   NEW RESERVATION PROCESS ");
@@ -321,9 +321,8 @@ public class UserInterface {
         System.out.print("Enter guest name: ");
         String guestName = scanner.nextLine().trim();
 
-        PaymentType paymentType = PaymentType.CARD; // doar pentru builder, plata reala se face in displaySummary
+        PaymentType paymentType = PaymentType.CARD;
 
-        // BUILD RESERVATION USING BUILDER
         Reservation reservation = new ReservationBuilder()
                 .withGuestName(guestName)
                 .withRoom(room.clone())

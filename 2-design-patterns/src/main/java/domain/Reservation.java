@@ -44,7 +44,7 @@ public class Reservation {
     public boolean isLoyalty() { return loyalty; }
     public PaymentType getPaymentType() { return paymentType; }
 
-    // Date check-in / check-out
+    //check-in / check-out
     public LocalDate getCheckInDate()  { return checkInDate; }
     public LocalDate getCheckOutDate() { return checkOutDate; }
     public void setCheckInDate(LocalDate checkInDate)   { this.checkInDate = checkInDate; }

@@ -8,30 +8,25 @@ import observer.EmailNotificationService;
 import observer.LoyaltyPointService;
 import builder.ReservationBuilder;
  
-// Abstract Factory - pentru package complet
 import abstractFactory.ReservationPackageFactory;
 import abstractFactory.StandardPackageFactory;
 import abstractFactory.DeluxePackageFactory;
 import abstractFactory.SuitePackageFactory;
 
-// Factory Method - pentru room simplu
 import factory.RoomFactory;
 import factory.StandardRoomFactory;
 import factory.DeluxeRoomFactory;
 import factory.SuiteRoomFactory;
 
-// Strategy + Adapter pentru plată
 import strategy.PaymentStrategy;
 import strategy.StripePaymentStrategy;
 import strategy.CashPaymentStrategy;
 import strategy.PayPalPaymentStrategy;
 
-// Command pattern
 import command.Command;
 import command.PlaceReservationCommand;
 import command.ReservationInvoker;
 
-// Composite pattern (pentru afișarea pachetului Suite)
 import composite.ServiceComponent;
 import composite.SingleService;
 import composite.ServicePackage;
@@ -55,7 +50,7 @@ import java.time.temporal.ChronoUnit;
 
 public class HotelApp extends Application {
 
-    // ── State ──────────────────────────────────────────────────
+    // State 
     private boolean isLoyalty = false;
     private String phoneNumber = "";
     private String guestName = "";
@@ -76,7 +71,7 @@ public class HotelApp extends Application {
     private boolean isDarkMode = true;
     private Runnable currentStepRefresh = null;
 
-    // Command pattern - invoker care păstrează istoricul pentru undo
+    // Command pattern
     private final ReservationInvoker invoker = new ReservationInvoker();
 
     // Dark Mode Colors
@@ -104,9 +99,9 @@ public class HotelApp extends Application {
     private String FIELD()  { return isDarkMode ? DARK_FIELD  : LIGHT_FIELD;  }
     private String BORDER() { return isDarkMode ? DARK_BORDER : LIGHT_BORDER; }
     private String TEXT()   { return isDarkMode ? DARK_TEXT   : LIGHT_TEXT;   }
-    // Gold și gray adaptate la temă pentru contrast bun
-    private String GOLD_FG() { return isDarkMode ? "#C9A84C" : "#9B7E2E"; }  // gold mai întunecat pe fundal deschis
-    private String MUTED()   { return isDarkMode ? "#8A8A8A" : "#5A6B82"; }  // gri-bleumarin pe light
+  
+    private String GOLD_FG() { return isDarkMode ? "#C9A84C" : "#9B7E2E"; }
+    private String MUTED()   { return isDarkMode ? "#8A8A8A" : "#5A6B82"; }
 
     @Override
     public void start(Stage stage) {
@@ -117,7 +112,7 @@ public class HotelApp extends Application {
         root = new StackPane();
         root.setStyle("-fx-background-color: transparent;");
 
-        // Theme toggle button — fixed top-right corner
+        // Theme toggle button
         Button themeBtn = new Button("Day Mode");
         themeBtn.setFont(Font.font("Georgia", 12));
         themeBtn.setTextFill(Color.web(GOLD));
@@ -136,7 +131,7 @@ public class HotelApp extends Application {
             } else {
                 root.setStyle("-fx-background-color: " + BG() + ";");
             }
-            // Toggle CSS class pentru DatePicker/Spinner/Calendar styling
+            // Toggle CSS class 
             if (isDarkMode) {
                 root.getStyleClass().remove("light");
             } else {
@@ -157,7 +152,7 @@ public class HotelApp extends Application {
 
         Scene scene = new Scene(root, 900, 750);
 
-        // Atașăm stylesheet-ul global pentru DatePicker, Spinner, ScrollBar
+        // global stylesheet forDatePicker, Spinner, ScrollBar
         java.net.URL cssUrl = getClass().getResource("/styles.css");
         if (cssUrl != null) {
             scene.getStylesheets().add(cssUrl.toExternalForm());
@@ -169,7 +164,6 @@ public class HotelApp extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
 
-        // Confirmare la închidere dacă rezervarea e începută dar neterminată
         stage.setOnCloseRequest(ev -> {
             if (hasUnsavedReservation()) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -188,10 +182,7 @@ public class HotelApp extends Application {
         stage.show();
     }
 
-    /**
-     * Verifică dacă utilizatorul a început să completeze o rezervare
-     * (orice date introduse care nu sunt la valorile default).
-     */
+
     private boolean hasUnsavedReservation() {
         return !guestName.isEmpty()
             || !guestEmail.isEmpty()
@@ -202,7 +193,7 @@ public class HotelApp extends Application {
             || checkOutDate != null;
     }
 
-    // STEP 1 — Welcome + Loyalty
+    // STEP 1 Welcome + Loyalty
     private void showStep1() {
         currentStepRefresh = () -> showStep1();
         root.getStyleClass().remove("landing-root");
@@ -224,7 +215,6 @@ public class HotelApp extends Application {
         TextField phoneField = makeTextField("Enter your phone number");
         phoneField.setVisible(false);
         phoneField.setManaged(false);
-        // Permite doar cifre în câmpul de telefon
         phoneField.textProperty().addListener((obs, oldV, newV) -> {
             if (newV != null && !newV.matches("\\d*")) {
                 phoneField.setText(newV.replaceAll("[^\\d]", ""));
@@ -250,19 +240,16 @@ public class HotelApp extends Application {
             if (yes.isSelected()) {
                 String ph = phoneField.getText().trim();
 
-                // 1. Validare: câmpul nu poate fi gol
                 if (ph.isEmpty()) {
                     error.setText("Please enter your phone number.");
                     return;
                 }
 
-                // 2. Validare: doar cifre, lungime rezonabilă (7-15 cifre)
                 if (!ph.matches("\\d{7,15}")) {
                     error.setText("Invalid phone number. Please enter 7-15 digits.");
                     return;
                 }
 
-                // 3. Verificare în baza de date — esențial!
                 HotelManager manager = HotelManager.getInstance();
                 if (!manager.isLoyaltyMember(ph)) {
                     error.setText("Phone number not found in our loyalty program. Please check and try again, or select 'No' to continue.");
@@ -284,7 +271,7 @@ public class HotelApp extends Application {
         setCard(card);
     }
 
-    // STEP 2 — Reservation Type
+    // STEP 2 Reservation Type
     private void showLandingPage() {
         currentStepRefresh = () -> showLandingPage();
         if (!root.getStyleClass().contains("landing-root")) {
@@ -384,7 +371,7 @@ public class HotelApp extends Application {
         setCard(card);
     }
 
-    // STEP 3 — Room + Services + Guest Info
+    // STEP 3 Room + Services + Guest Info
     private void showStep3() {
         currentStepRefresh = () -> showStep3();
         VBox card = makeCard();
@@ -423,11 +410,6 @@ public class HotelApp extends Application {
             cbRoomSvc.setManaged(false);
         }
 
-        // Abstract Factory + Factory Method: aplicăm defaults pentru
-        // checkbox-uri pe baza camerei selectate.
-        //  Standard - AirportTransfer
-        //  Deluxe   - Spa + AirportTransfer
-        //  Suite    - Spa + RoomService + AirportTransfer (LOCKED)
         Runnable applyDefaultsForRoom = () -> {
             if (!packageReservation) {
                 cbSpa.setSelected(false);
@@ -444,7 +426,6 @@ public class HotelApp extends Application {
             else if (r2.isSelected()) factory = new DeluxePackageFactory();
             else                      factory = new StandardPackageFactory();
 
-            // reset toate checkbox-urile
             cbSpa.setSelected(false);
             cbAirport.setSelected(false);
             cbRoomSvc.setSelected(false);
@@ -452,14 +433,12 @@ public class HotelApp extends Application {
             cbAirport.setDisable(false);
             cbRoomSvc.setDisable(false);
 
-            // bifează pe baza serviciilor returnate de factory
             for (ExtraService s : factory.createExtraServices()) {
                 if (s instanceof SpaAccess)        cbSpa.setSelected(true);
                 else if (s instanceof AirportTransfer) cbAirport.setSelected(true);
                 else if (s instanceof RoomService) cbRoomSvc.setSelected(true);
             }
 
-            // Suite = pachet premium, serviciile sunt incluse și NU pot fi debifate
             if (r3.isSelected()) {
                 cbSpa.setDisable(true);
                 cbAirport.setDisable(true);
@@ -467,14 +446,12 @@ public class HotelApp extends Application {
             }
         };
 
-        // Guest info
         Label guestLabel = makeQuestion("Guest details:");
         Label guestHint  = makeHint("Please enter your full name (first + last name) and a valid email address.");
 
         TextField nameField   = makeTextField("Full name (e.g. John Smith)");
         TextField emailField  = makeTextField("Email address");
 
-        // DATE PICKERS: check-in & check-out
         Label datesLabel = makeQuestion("Check-in / Check-out:");
         Label datesHint  = makeHint("Check-in must be today or later. Maximum stay is " + MAX_NIGHTS + " nights.");
 
@@ -485,14 +462,13 @@ public class HotelApp extends Application {
         styleDatePicker(checkInPicker);
         styleDatePicker(checkOutPicker);
 
-        // Blochează datele din trecut
         checkInPicker.setDayCellFactory(picker -> new DateCell() {
             @Override public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 if (date != null) setDisable(empty || date.isBefore(LocalDate.now()));
             }
         });
-        // Check-out trebuie să fie după check-in
+
         checkOutPicker.setDayCellFactory(picker -> new DateCell() {
             @Override public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
@@ -501,12 +477,10 @@ public class HotelApp extends Application {
             }
         });
 
-        // Label live care arată numărul de nopți calculat
         Label nightsLabel = new Label();
         nightsLabel.setFont(Font.font("Georgia", FontPosture.ITALIC, 12));
         nightsLabel.setStyle("-fx-text-fill: " + GOLD_FG() + ";");
 
-        // SPINNER-uri pentru oaspeți
         Label guestsLabel = makeQuestion("Number of guests:");
         Label guestsHint  = makeHint("Capacity depends on room type - Standard: 2, Deluxe: 3, Suite: 4 guests.");
 
@@ -522,12 +496,10 @@ public class HotelApp extends Application {
         adultsCap.setStyle("-fx-text-fill: " + TEXT() + ";");
         childrenCap.setStyle("-fx-text-fill: " + TEXT() + ";");
 
-        // Live price
         totalLabel = new Label("Total: €0.00");
         totalLabel.setFont(Font.font("Georgia", FontWeight.BOLD, 18));
         totalLabel.setStyle("-fx-text-fill: " + GOLD_FG() + ";");
 
-        // Helper care calculează numărul de nopți din date
         java.util.function.IntSupplier computeNights = () -> {
             LocalDate ci = checkInPicker.getValue();
             LocalDate co = checkOutPicker.getValue();
@@ -561,7 +533,6 @@ public class HotelApp extends Application {
                 total, "%", isLoyalty ? " · Loyalty -15%" : ""));
         };
 
-        // Listener-i pe DatePicker-e și pe restul
         r1.setOnAction(e -> { applyDefaultsForRoom.run(); updatePrice.run(); });
         r2.setOnAction(e -> { applyDefaultsForRoom.run(); updatePrice.run(); });
         r3.setOnAction(e -> { applyDefaultsForRoom.run(); updatePrice.run(); });
@@ -569,7 +540,6 @@ public class HotelApp extends Application {
         cbAirport.setOnAction(e -> updatePrice.run());
         cbRoomSvc.setOnAction(e -> updatePrice.run());
         checkInPicker.valueProperty().addListener((obs, o, n) -> {
-            // Dacă check-out nu mai e valid, îl reactualizăm
             if (n != null && checkOutPicker.getValue() != null && !checkOutPicker.getValue().isAfter(n)) {
                 checkOutPicker.setValue(n.plusDays(1));
             }
@@ -577,7 +547,6 @@ public class HotelApp extends Application {
         });
         checkOutPicker.valueProperty().addListener((obs, o, n) -> updatePrice.run());
 
-        // Aplicăm defaults la deschidere (Standard e pre-selectat)
         applyDefaultsForRoom.run();
         updatePrice.run();
 
@@ -587,13 +556,11 @@ public class HotelApp extends Application {
             String name = nameField.getText().trim();
             String email = emailField.getText().trim();
 
-            // 1. Validare nume - obligatoriu
             if (name.isEmpty()) {
                 error.setText("Please enter guest name.");
                 return;
             }
 
-            // 2. Validare nume complet - prenume + nume (minim 2 cuvinte, fiecare ≥ 2 litere)
             String[] parts = name.split("\\s+");
             if (parts.length < 2) {
                 error.setText("Please enter your FULL name - both first name and last name (e.g. 'John Smith').");
@@ -611,12 +578,10 @@ public class HotelApp extends Application {
                 return;
             }
 
-            // 3. Validare email - obligatoriu și format valid
             if (email.isEmpty()) {
                 error.setText("Please enter your email address.");
                 return;
             }
-            // Strictly enforce addresses like user@provider.com with common provider names.
             if (!email.matches("^[A-Za-z0-9._%+-]+@(?:gmail|yahoo|outlook|hotmail|live|icloud|aol|protonmail|zoho|yandex|mail)\\.com$") ||
                 email.contains("@.") || email.startsWith(".") ||
                 email.contains("..")) {
@@ -624,7 +589,6 @@ public class HotelApp extends Application {
                     return;
             }
 
-            // 4. Validare date check-in / check-out
             LocalDate ci = checkInPicker.getValue();
             LocalDate co = checkOutPicker.getValue();
             if (ci == null || co == null) {
@@ -645,7 +609,6 @@ public class HotelApp extends Application {
                 return;
             }
 
-            // 5. Validare oaspeți vs. capacitatea camerei
             int adultsVal   = adultsSpinner.getValue();
             int childrenVal = childrenSpinner.getValue();
             int totalGuests = adultsVal + childrenVal;
@@ -653,7 +616,6 @@ public class HotelApp extends Application {
                 error.setText("At least one adult is required.");
                 return;
             }
-            // Determinăm capacitatea camerei selectate FĂRĂ a o instanția încă
             int roomCapacity = r3.isSelected() ? 4 : r2.isSelected() ? 3 : 2;
             if (totalGuests > roomCapacity) {
                 String roomName = r3.isSelected() ? "Suite" : r2.isSelected() ? "Deluxe" : "Standard";
@@ -663,7 +625,6 @@ public class HotelApp extends Application {
                 return;
             }
 
-            // Salvăm state-ul
             guestName = name;
             guestEmail = email;
             nights = nVal;
@@ -672,7 +633,6 @@ public class HotelApp extends Application {
             adults = adultsVal;
             children = childrenVal;
 
-            // Factory Method pentru cameră
             RoomFactory roomFactory;
             if (r3.isSelected())      roomFactory = new SuiteRoomFactory();
             else if (r2.isSelected()) roomFactory = new DeluxeRoomFactory();
@@ -696,7 +656,6 @@ public class HotelApp extends Application {
             new VBox(4, new Label("Check-out"), checkOutPicker),
             new VBox(4, new Label(" "), nightsLabel)
         );
-        // stilăm label-urile de deasupra picker-elor
         for (javafx.scene.Node n : datesRow.getChildren()) {
             if (n instanceof VBox) {
                 Label l = (Label) ((VBox) n).getChildren().get(0);
@@ -722,7 +681,7 @@ public class HotelApp extends Application {
         setCard(card);
     }
 
-    // STEP 4 — Payment
+    // STEP 4 Payment
     private void showStep4() {
         currentStepRefresh = () -> showStep4();
         VBox card = makeCard();
@@ -747,16 +706,15 @@ public class HotelApp extends Application {
             PaymentStrategy strategy;
             if (pCard.isSelected()) {
                 paymentType = PaymentType.CARD;
-                strategy = new StripePaymentStrategy();    // Strategy + Stripe Adapter
+                strategy = new StripePaymentStrategy();
             } else if (pCash.isSelected()) {
                 paymentType = PaymentType.CASH;
                 strategy = new CashPaymentStrategy();
             } else {
                 paymentType = PaymentType.ONLINE_BANKING;
-                strategy = new PayPalPaymentStrategy();    // Strategy + PayPal Adapter
+                strategy = new PayPalPaymentStrategy();
             }
 
-            // Calculează totalul (folosit și pentru plată, și pentru afișaj)
             double base = selectedRoom.getPricePerNight();
             double extras = selectedServices.stream().mapToDouble(ExtraService::getPrice).sum();
             double subtotal = (base + extras) * nights;
@@ -767,7 +725,7 @@ public class HotelApp extends Application {
             Reservation reservation = new ReservationBuilder()
                 .withGuestName(guestName)
                 .withPhoneNumber(phoneNumber)
-                .withRoom(selectedRoom.clone())          // Prototype - clonăm camera
+                .withRoom(selectedRoom.clone())
                 .withNights(nights)
                 .withServices(selectedServices)
                 .withLoyalty(isLoyalty)
@@ -776,20 +734,17 @@ public class HotelApp extends Application {
                 .withCheckOut(checkOutDate)
                 .build();
 
-            // STRATEGY: execută plata prin strategia aleasă (care intern folosește Adapter)
             System.out.println("============================================================");
             System.out.println("PROCESSING PAYMENT via " + strategy.getMethodName());
             strategy.pay(total);
             System.out.println("============================================================");
 
-            // COMMAND: încapsulează salvarea rezervării (Manager + State.next + Repository)
-            // și o execută prin Invoker pentru a putea fi anulată ulterior cu undo()
+
             Command placeOrder = new PlaceReservationCommand(
                 HotelManager.getInstance(), reservation
             );
             invoker.executeCommand(placeOrder);
 
-            // Trecem la confirmare, păstrând și strategia folosită pentru afișaj
             final double finalTotal = total;
             final PaymentStrategy finalStrategy = strategy;
             fadeTransition(() -> showConfirmation(reservation, finalTotal, finalStrategy));
@@ -803,7 +758,7 @@ public class HotelApp extends Application {
         setCard(card);
     }
 
-    // STEP 5 — Confirmation
+    // STEP 5 Confirmation
     private void showConfirmation(Reservation res, double total, PaymentStrategy strategy) {
         VBox card = makeCard();
 
@@ -814,18 +769,16 @@ public class HotelApp extends Application {
         Label title = makeTitle("Reservation Confirmed!");
         title.setStyle("-fx-text-fill: #2E7D32; -fx-font-family: Georgia; -fx-font-size: 28; -fx-font-weight: bold;");
 
-        // COMPOSITE: pentru Suite afișăm pachetul ca arbore composite.
-        // Pentru Standard / Deluxe afișăm lista simplă.
+        // COMPOSITE: pentru Suite afisam pachetul ca arbore composite
+        // Pentru Standard / Deluxe afisam lista simpla
         boolean isSuite = res.getRoom() instanceof SuiteRoom;
         VBox servicesBlock = new VBox(4);
 
         if (isSuite && !res.getExtraServices().isEmpty()) {
-            // Construim un ServicePackage (Composite) cu SingleService (Leaf)
             ServicePackage suitePackage = new ServicePackage("Suite Premium Package");
             for (ExtraService s : res.getExtraServices()) {
                 suitePackage.add(new SingleService(s.getDescription(), s.getPrice()));
             }
-            // Afișăm și în consolă structura composite (pentru demo)
             System.out.println("[COMPOSITE] Displaying Suite package structure:");
             suitePackage.display();
 
@@ -852,12 +805,10 @@ public class HotelApp extends Application {
             servicesBlock.getChildren().add(item);
         }
 
-        // Detalii rezervare
         Label statusValue = new Label(res.getStatusName());
         statusValue.setFont(Font.font("Georgia", 13));
         statusValue.setStyle("-fx-text-fill: " + TEXT() + ";");
 
-        // Formatare prietenoasă a datelor
         DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("EEE, d MMM yyyy");
         String checkInStr  = res.getCheckInDate()  != null ? res.getCheckInDate().format(dateFmt)  : "—";
         String checkOutStr = res.getCheckOutDate() != null ? res.getCheckOutDate().format(dateFmt) : "—";
@@ -880,7 +831,6 @@ public class HotelApp extends Application {
         );
         details.setStyle("-fx-background-color: rgba(255,255,255,0.05); -fx-padding: 16; -fx-background-radius: 8;");
 
-        // Buton Undo - folosește invoker-ul Command
         Button undoBtn = new Button("Undo Reservation");
         undoBtn.setFont(Font.font("Georgia", FontWeight.BOLD, 13));
         undoBtn.setTextFill(Color.web("#FF6B6B"));
@@ -940,14 +890,12 @@ public class HotelApp extends Application {
     }
 
     private void setCard(VBox card) {
-        // Keep theme button if present
         javafx.scene.Node themeBtn = root.getChildren().size() > 0
             ? root.getChildren().stream().filter(n -> n instanceof Button).findFirst().orElse(null)
             : null;
         root.getChildren().clear();
 
-        // Wrappam card-ul într-un VBox centrat, apoi într-un ScrollPane.
-        // VBox-ul wrapper menține card-ul centrat și adaugă spațiu egal sus/jos pentru simetrie.
+       
         VBox wrapper = new VBox();
         wrapper.setAlignment(Pos.CENTER);
         wrapper.setPadding(new Insets(30, 20, 30, 20));
@@ -962,14 +910,12 @@ public class HotelApp extends Application {
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        // Stilizăm ScrollPane-ul ca să fie complet transparent peste fundal
         scrollPane.setStyle(
             "-fx-background: transparent;" +
             "-fx-background-color: transparent;" +
             "-fx-border-color: transparent;" +
             "-fx-control-inner-background: transparent;"
         );
-        // Forțăm wrapper să umple înălțimea din viewport pentru centrare verticală
         wrapper.minHeightProperty().bind(scrollPane.heightProperty());
         wrapper.setStyle("-fx-background-color: transparent;");
 
@@ -1145,7 +1091,6 @@ public class HotelApp extends Application {
         return new HBox(12, k, v);
     }
 
-    // Variantă a makeDetail care primește un Node (ex. VBox cu structura composite)
     private HBox makeDetailNode(String label, javafx.scene.Node node) {
         Label k = new Label(label + ":");
         k.setFont(Font.font("Georgia", FontWeight.BOLD, 13));
