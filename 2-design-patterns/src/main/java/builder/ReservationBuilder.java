@@ -5,6 +5,7 @@ import models.Room;
 import models.ExtraService;
 import enums.PaymentType;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,9 @@ public class ReservationBuilder implements Builder {
     private List<ExtraService> services = new ArrayList<>();
     private boolean loyalty;
     private PaymentType paymentType;
+    private String phoneNumber;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
 
     public ReservationBuilder withGuestName(String guestName) {
         this.guestName = guestName;
@@ -52,8 +56,26 @@ public class ReservationBuilder implements Builder {
         return this;
     }
 
+    public ReservationBuilder withPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
+
+    public ReservationBuilder withCheckIn(LocalDate checkInDate) {
+        this.checkInDate = checkInDate;
+        return this;
+    }
+
+    public ReservationBuilder withCheckOut(LocalDate checkOutDate) {
+        this.checkOutDate = checkOutDate;
+        return this;
+    }
+
     @Override
     public Reservation build() {
-        return new Reservation(guestName, room, nights, services, loyalty, paymentType);
+        Reservation r = new Reservation(guestName, phoneNumber, room, nights, services, loyalty, paymentType);
+        r.setCheckInDate(checkInDate);
+        r.setCheckOutDate(checkOutDate);
+        return r;
     }
 }
